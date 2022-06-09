@@ -1,13 +1,19 @@
-local window = library:CreateWindow(
-    {
-        WindowName = "ALCATRAZ UI - v1.0.1",
-        Color = Color3.fromRGB(179, 51, 196),
-    },
-    game.CoreGui
-)
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))() -- Load Kavo Library
 
-local aimbot_tab = window:CreateTab("AIMBOT")
-local character_tab = window:CreateTab("CHARACTER")
+local Window = Library.CreateLib("ALCATRAZ PF", "Synapse") -- Theme and Title
+
+local Aim = Window:NewTab("Aimbot") -- Aimbot Tab
+local SilentAims = Aim:NewSection("Silent Aim")
+local FOVs = Aim:NewSection("FOV")
+
+local Mods = Window:NewTab("Mods") -- Mods Tab
+local PlayerModss = Mods:NewSection("Player Mods")
+local GunModss = Mods:NewSection("Gun Mods")
+
+local Credits = Window:NewTab("Extras")
+local Creditss = Credits:NewSection("Credits")
+local UIs = Credits:NewSection("UI Settings")
+
 do
     local fov_circle = Drawing.new("Circle")
     fov_circle.Thickness = 1
@@ -25,82 +31,124 @@ do
             task.wait()
         end
     end)
+
+SilentAims:NewToggle("Silent Aim", "Toggles Silent Aim. Silent Aim will redirect your bullets to hit a certain part of an enemies body.", function(state)
+    config.aimbot.silent_aim = state
+end)
+
+SilentAims:NewSlider("Hit Chance", "Changes how many percent of your bullets will hit the enemy player.", 100, 0, function(s)
+    config.aimbot.hit_chance = state
+end)
+
+Section:NewDropdown("Hit Part", "Changes where your bullets will hit the enemy player.", {"Head", "Torso"}, function(currentOption)
+    print(currentOption)
     
-    local silentaim_sector = aimbot_tab:CreateSection("silent aim")
-    silentaim_sector:CreateToggle("enabled", false, function(state)
-        config.aimbot.silent_aim = state
-    end)
-    silentaim_sector:CreateDropdown("hit part", {
-        "head",
-        "torso"
-    }, function(state)
-        config.aimbot.target_part = state
-    end)
-    silentaim_sector:CreateSlider("hit chance %", 0, 100, 100, true, function(state)
-        config.aimbot.hit_chance = state
-    end)
-    local fieldofview_sector = aimbot_tab:CreateSection("field of view")
-    fieldofview_sector:CreateToggle("enabled", false, function(state)
-        config.aimbot.field_of_view = state
-    end)
-    fieldofview_sector:CreateSlider("range", 0, 360, 180, true, function(state)
-        config.aimbot.field_of_view_range = state
-        fov_circle.Radius = state
-    end)
-    fieldofview_sector:CreateColorpicker("color", function(state)
-        fov_circle.Color = state
-    end)
-    fieldofview_sector:CreateToggle("visible", false, function(state)
-        fov_circle.Visible = state
-    end)
-    fieldofview_sector:CreateToggle("filled", false, function(state)
-        fov_circle.Filled = state
-    end)
-    fieldofview_sector:CreateSlider("transparency", 0, 1, 1, false, function(state)
-        fov_circle.Transparency = state
-    end)
-    local gunmod_sector = aimbot_tab:CreateSection("gun mod")
-    gunmod_sector:CreateToggle("fast reload", false, function(state)
-        config.gunmod.fast_reload = state
-    end)
-    gunmod_sector:CreateToggle("fast equip", false, function(state)
-        config.gunmod.fast_equip = state
-    end)
+    config.aimbot.target_part = state
+end)
+
+FOVs:NewToggle("FOV Toggle", "Toggles Silent Aim FOV. Only hits enemies within the FOV circle.", function(state)
+    config.aimbot.field_of_view = state
+end)
+
+FOVs:NewSlider("FOV Radius", "Changes the FOV radius (size).", 360, 0, function(s)
+    config.aimbot.field_of_view_range = state
+    fov_circle.Radius = state
+end)
+
+FOVs:NewColorPicker("FOV Color", "Changes the color of the FOV circle.", Color3.fromRGB(0,0,0), function(color)
+    print(color)
+    fov_circle.Color = state
+end)
+
+FOVs:NewToggle("FOV visible", "Changes whether your FOV circle is visible to you or not.", function(state)
+    fov_circle.Visible = state
+end)
+
+FOVs:NewToggle("FOV Fill", "Changes whether your FOV circle is filled or not.", function(state)
+    fov_circle.Filled = state
+end)
+
+FOVs:NewSlider("FOV Transparency", "Changes the Transparency of your FOV circle.", 1, 0, function(s)
+    fov_circle.Transparency = state
+end)
+
+PlayerModss:NewToggle("Walkspeed", "Changes how fast you walk. (Default = 16)", function(state)
+    config.character.walkspeed = state
+end)
+
+PlayerModss:NewToggle("Jumpower", "Changes how high you jump. (Default = 50)", function(state)
+    config.character.jumppower = state
+end)
+
+PlayerModss:NewToggle("Auto Deploy", "Automatically will deploy you into the game.", function(state)
+    config.character.auto_deploy = state
+end)
+
+PlayerModss:NewToggle("Fake Lag", "Lags the whole server.", function(state)
+    config.character.fake_lag = state
+end)
+
+PlayerModss:NewSlider("Walkspeed", "Amount of speed your character has.", 250, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    set_speed(state)
+end)
+
+PlayerModss:NewSlider("Jumpower", "Amount of Jump Power your character has.", 250, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    set_jump_power(state)
+end)
+
+PlayerModss:NewSlider("Fake Lag", "Amount of fake lag the server has.", 250, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    config.character.fake_lag_limit = state
+end)
+
+PlayerModss:NewToggle("Anti Aim", "Fakes your stance in-game to trick enemies.", function(state)
+    config.character.antiaim = state
+end)
+
+PlayerModss:NewDropdown("Anti Aim Stance", "What stance to use for anti aim.", {"Prone", "Crouch", "Stand"}, function(currentOption)
+    print(currentOption)
+    config.character.antiaim_stance = state
+end)
+
+GunModss:NewToggle("Instant Reload", "Instantly reloads your gun.", function(state)
+    config.gunmod.fast_reload = state
+end)
+
+GunModss:NewToggle("Instant Equip", "Instantly Equips your weapon of choice.", function(state)
+    config.gunmod.fast_reload = state
+end)
+
+UIs:NewKeybind("Press P to toggle the UI.", "hides/shows the UI", Enum.KeyCode.P, function()
+	Library:ToggleUI()
+end)
+
+Credits:NewLabel("Made By Payson Holmes")
+Credits:NewLabel("FOR PHANTOM FORCES ONLY!")
+
+game:GetService("StarterGui"):SetCore("SendNotification",{
+Title = "ALCATRAZ - v1.0.2",
+Text = "Made By Payson Holmes", 
+Duration = 8 
+})
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title = "Support",
+    Text = "https://dsc.gg/PDennSploit", 
+    Duration = 8 
+    })
+print("=========================")
+print("ALCATRAZ By Payson Holmes")
+print("=========================")
+
+if game.PlaceId == 292439477
+then game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title = "Script Loaded",
+    Text = "Supported Game Found: Phantom Forces", 
+    Duration = 3 
+    })
+else
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title = "!!!UNSUPPORTED GAME!!!",
+    Text = "This script was designed for Phantom Forces. ALCATRAZ may not work in your game.", 
+    Duration = 10 
+    })
 end
-do
-    local movement_sector = character_tab:CreateSection("movement")
-    movement_sector:CreateToggle("walkspeed", false, function(state)
-        config.character.walkspeed = state
-    end)
-    movement_sector:CreateToggle("jumppower", false, function(state)
-        config.character.jumppower = state
-    end)
-    movement_sector:CreateToggle("auto deploy", false, function(state)
-        config.character.auto_deploy = state
-    end)
-    movement_sector:CreateToggle("fake lag ( might be buggy )", false, function(state)
-        config.character.fake_lag = state
-    end)
-    local settings_sector = character_tab:CreateSection("settings")
-    settings_sector:CreateSlider("walkspeed amount", 0, 100, 35, true, function(state)
-        set_speed(state)
-    end)
-    settings_sector:CreateSlider("jumppower amount", 0, 100, 35, true, function(state)
-        set_jump_power(state)
-    end)
-    settings_sector:CreateSlider("fakelag amount", 0, 20, 15, true, function(state)
-        config.character.fake_lag_limit = state
-    end)
-    
-    local antiaim_sector = character_tab:CreateSection("anti aim")
-    antiaim_sector:CreateToggle("enabled", false, function(state)
-        config.character.antiaim = state
-    end)
-    antiaim_sector:CreateDropdown("stance type", {
-        "prone",
-        "crouch",
-        "stand"
-    }, function(state)
-        config.character.antiaim_stance = state
-    end)
 end
