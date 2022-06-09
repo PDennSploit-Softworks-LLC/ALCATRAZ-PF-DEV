@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))() -- Load Kavo Library
 
-local Window = Library.CreateLib("ALCATRAZ PF", "Synapse") -- Theme and Title
+local Window = Library.CreateLib("ALCATRAZ - v1.0.2", "DarkTheme") -- Theme and Title
 
 local Aim = Window:NewTab("Aimbot") -- Aimbot Tab
 local SilentAims = Aim:NewSection("Silent Aim")
@@ -71,7 +71,8 @@ end)
 FOVs:NewSlider("FOV Transparency", "Changes the Transparency of your FOV circle.", 1, 0, function(s)
     fov_circle.Transparency = state
 end)
-
+end
+do
 PlayerModss:NewToggle("Walkspeed", "Changes how fast you walk. (Default = 16)", function(state)
     config.character.walkspeed = state
 end)
@@ -116,14 +117,15 @@ end)
 GunModss:NewToggle("Instant Equip", "Instantly Equips your weapon of choice.", function(state)
     config.gunmod.fast_reload = state
 end)
-
+end
+do
 UIs:NewKeybind("Press P to toggle the UI.", "hides/shows the UI", Enum.KeyCode.P, function()
 	Library:ToggleUI()
 end)
 
 Credits:NewLabel("Made By Payson Holmes")
 Credits:NewLabel("FOR PHANTOM FORCES ONLY!")
-
+end
 game:GetService("StarterGui"):SetCore("SendNotification",{
 Title = "ALCATRAZ - v1.0.2",
 Text = "Made By Payson Holmes", 
@@ -150,5 +152,5 @@ game:GetService("StarterGui"):SetCore("SendNotification",{
     Text = "This script was designed for Phantom Forces. ALCATRAZ may not work in your game.", 
     Duration = 10 
     })
-end
+
 end
