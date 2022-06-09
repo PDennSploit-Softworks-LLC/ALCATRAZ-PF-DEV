@@ -14,7 +14,6 @@ local Credits = Window:NewTab("Extras")
 local Creditss = Credits:NewSection("Credits")
 local UIs = Credits:NewSection("UI Settings")
 
-do
     local fov_circle = Drawing.new("Circle")
     fov_circle.Thickness = 1
     fov_circle.NumSides = 100
@@ -71,8 +70,7 @@ end)
 FOVs:NewSlider("FOV Transparency", "Changes the Transparency of your FOV circle.", 1, 0, function(s)
     fov_circle.Transparency = state
 end)
-end
-do
+
 PlayerModss:NewToggle("Walkspeed", "Changes how fast you walk. (Default = 16)", function(state)
     config.character.walkspeed = state
 end)
@@ -117,15 +115,14 @@ end)
 GunModss:NewToggle("Instant Equip", "Instantly Equips your weapon of choice.", function(state)
     config.gunmod.fast_reload = state
 end)
-end
-do
+
 UIs:NewKeybind("Press P to toggle the UI.", "hides/shows the UI", Enum.KeyCode.P, function()
 	Library:ToggleUI()
 end)
 
 Credits:NewLabel("Made By Payson Holmes")
 Credits:NewLabel("FOR PHANTOM FORCES ONLY!")
-end
+
 game:GetService("StarterGui"):SetCore("SendNotification",{
 Title = "ALCATRAZ - v1.0.2",
 Text = "Made By Payson Holmes", 
