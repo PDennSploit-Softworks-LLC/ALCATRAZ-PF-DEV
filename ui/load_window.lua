@@ -1,6 +1,8 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))() -- Load Kavo Library
+if game.PlaceId == 292439477 then
 
-local Window = Library.CreateLib("ALCATRAZ - v1.0.2", "DarkTheme") -- Theme and Title
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/PDennSploit-Softworks-LLC/ALCATRAZ-PF-DEV/main/ui/lib.lua"))()
+
+local Window = Library.CreateLib("ALCATRAZ PF", "DarkTheme") -- Theme and Title
 
 local Aim = Window:NewTab("Aimbot") -- Aimbot Tab
 local SilentAims = Aim:NewSection("Silent Aim")
@@ -136,18 +138,11 @@ game:GetService("StarterGui"):SetCore("SendNotification",{
 print("=========================")
 print("ALCATRAZ By Payson Holmes")
 print("=========================")
-
-if game.PlaceId == 292439477
-then game:GetService("StarterGui"):SetCore("SendNotification",{
-    Title = "Script Loaded",
-    Text = "Supported Game Found: Phantom Forces", 
-    Duration = 3 
-    })
+end
 else
 game:GetService("StarterGui"):SetCore("SendNotification",{
     Title = "!!!UNSUPPORTED GAME!!!",
-    Text = "This script was designed for Phantom Forces. ALCATRAZ may not work in your game.", 
+    Text = "Unsupported Game!", 
     Duration = 10 
     })
-
 end
